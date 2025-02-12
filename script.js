@@ -4,6 +4,8 @@ let timerBar = document.getElementById("timer-bar");
 let firstLife = document.getElementById("life1");
 let secondLife = document.getElementById("life2");
 let thirdLife = document.getElementById("life3");
+let totalScoreDisplay = document.getElementById("total-score");
+let roundsPassedDisplay = document.getElementById("rounds-passed");
 
 let isTimerStarted = false;
 let bullseyes = 0;
@@ -19,6 +21,7 @@ let timerInterval;
 target.addEventListener("click", () => {
   bullseyes++;
   totalScore++;
+  totalScoreDisplay.textContent = `Total score: ${totalScore}`;
   checkIfFiveBullseyes();
   generateRandomTargetPosition();
   if (!isTimerStarted) {
@@ -58,6 +61,8 @@ function shrinkTarget() {
   target.style.height = `${targetHeight}px`;
   target.style.width = `${targetWidth}px`;
   target.textContent = null;
+  roundsPassed++;
+  roundsPassedDisplay.textContent = `Rounds passed: ${roundsPassed}`;
   bullseyes = 0;
 }
 
