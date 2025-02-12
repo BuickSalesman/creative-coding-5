@@ -46,13 +46,8 @@ function startTimer() {
   timerInterval = setInterval(() => {
     decreaseTimerWidth();
     if (timerWidth <= 0) {
-      clearInterval(timerInterval);
-      setTimeout(() => {
-        checkIfRoundPassed();
-        isTimerStarted = false;
-        timerWidth = 80;
-        timerBar.style.width = `100%`;
-      }, 1000);
+      resetRound();
+      checkIfRoundPassed();
     }
   }, 1000);
 }
@@ -81,7 +76,8 @@ function checkIfRoundPassed() {
 
 function loseLife() {
   livesLeft -= 1;
-  clearInterval(timerInterval);
+
+  resetRound();
 
   if (livesLeft === 2) {
     firstLife.style.color = "red";
@@ -97,10 +93,7 @@ function loseLife() {
 
 function checkIfFiveBullseyes() {
   if (bullseyes === 5) {
-    clearInterval(timerInterval);
-    isTimerStarted = false;
-    timerWidth = 80;
-    timerBar.style.width = `100%`;
+    resetRound();
     shrinkTarget();
   }
 }
@@ -108,4 +101,11 @@ function checkIfFiveBullseyes() {
 function gameOver() {
   alert("GAME OVER");
   location.reload();
+}
+
+function resetRound() {
+  clearInterval(timerInterval);
+  isTimerStarted = false;
+  timerWidth = 80;
+  timerBar.style.width = `100%`;
 }

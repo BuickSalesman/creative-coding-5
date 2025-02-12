@@ -17,7 +17,7 @@ html {
   height: 10px;
   width: 100%;
   background-color: lime;
-  transition: width 1s linear;
+  /* transition: width 1s linear; */
 }
 
 #target {
