@@ -4,15 +4,18 @@ let timerBar = document.getElementById("timer-bar");
 
 let isTimerStarted = false;
 let bullseyes = 0;
+let roundsPassed = 0;
 let targetHeight = 100;
 let targetWidth = 100;
-let timerWidth = 100;
+let timerWidth = 90;
+let livesLeft = 3;
 
 target.addEventListener("click", () => {
   bullseyes++;
   generateRandomTargetPosition();
 
   if (!isTimerStarted) {
+    timerBar.style.width = `${timerWidth}%`;
     startTimer();
   }
 
@@ -37,16 +40,18 @@ function startTimer() {
   isTimerStarted = true;
   let timerInterval = setInterval(() => {
     decreaseTimerWidth();
-    if (timerWidth <= 0) {
+    if (timerWidth <= -10) {
       clearInterval(timerInterval);
       isTimerStarted = false;
+      console.log(isTimerStarted);
+      timerWidth = 90;
       timerBar.style.width = `100%`;
     }
   }, 1000);
 }
 
 function shrinkTarget() {
-  if (bullseyes % 2 === 0) {
+  if (bullseyes % 5 === 0) {
     targetHeight = targetHeight * 0.75;
     targetWidth = targetWidth * 0.75;
     target.style.height = `${targetHeight}px`;
