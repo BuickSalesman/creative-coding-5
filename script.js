@@ -14,7 +14,7 @@ let roundsPassed = 0;
 let roundPassed = false;
 let targetHeight = 100;
 let targetWidth = 100;
-let timerWidth = 80;
+let timerWidth = 98;
 let livesLeft = 3;
 let timerInterval;
 
@@ -40,7 +40,6 @@ function getTwoRandomNumbers() {
   let number1 = Math.floor(Math.random() * 90);
   let number2 = Math.floor(Math.random() * 90);
 
-  console.log(number1, number2);
   return [number1, number2];
 }
 
@@ -52,7 +51,7 @@ function startTimer() {
       resetRound();
       checkIfRoundPassed();
     }
-  }, 1000);
+  }, 100);
 }
 
 function shrinkTarget() {
@@ -67,7 +66,7 @@ function shrinkTarget() {
 }
 
 function decreaseTimerWidth() {
-  timerWidth = timerWidth - 20;
+  timerWidth = timerWidth - 2;
   timerBar.style.width = `${timerWidth}%`;
 }
 
@@ -111,6 +110,6 @@ function gameOver() {
 function resetRound() {
   clearInterval(timerInterval);
   isTimerStarted = false;
-  timerWidth = 80;
+  timerWidth = 98;
   timerBar.style.width = `100%`;
 }
