@@ -15,8 +15,9 @@ html {
 
 #timer-bar {
   height: 10px;
-  width: 1000px;
+  width: 100%;
   background-color: lime;
+  transition: width 1s linear;
 }
 
 #target {

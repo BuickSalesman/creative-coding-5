@@ -1,15 +1,18 @@
 const gameContainer = document.getElementById("game-container");
 let target = document.getElementById("target");
+let timerBar = document.getElementById("timer-bar");
 
-let isStarted = false;
+let isTimerStarted = false;
 let bullseyes = 0;
 let targetHeight = 100;
 let targetWidth = 100;
+let timerWidth = 100;
 
 target.addEventListener("click", () => {
   bullseyes++;
   generateRandomTargetPosition();
-  if (!isStarted) {
+
+  if (!isTimerStarted) {
     startTimer();
   }
 
@@ -31,7 +34,15 @@ function getTwoRandomNumbers() {
 }
 
 function startTimer() {
-  return;
+  isTimerStarted = true;
+  let timerInterval = setInterval(() => {
+    decreaseTimerWidth();
+    if (timerWidth <= 0) {
+      clearInterval(timerInterval);
+      isTimerStarted = false;
+      timerBar.style.width = `100%`;
+    }
+  }, 1000);
 }
 
 function shrinkTarget() {
@@ -42,4 +53,9 @@ function shrinkTarget() {
     target.style.width = `${targetWidth}px`;
     target.textContent = null;
   }
+}
+
+function decreaseTimerWidth() {
+  timerWidth = timerWidth - 10;
+  timerBar.style.width = `${timerWidth}%`;
 }
