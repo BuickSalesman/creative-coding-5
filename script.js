@@ -1,25 +1,30 @@
 const gameContainer = document.getElementById("game-container");
 let target = document.getElementById("target");
 let timerBar = document.getElementById("timer-bar");
+let firstLife = document.getElementById("life1");
+let secondLife = document.getElementById("life2");
+let thirdLife = document.getElementById("life3");
 
 let isTimerStarted = false;
 let bullseyes = 0;
+let totalScore = 0;
 let roundsPassed = 0;
+let roundPassed = false;
 let targetHeight = 100;
 let targetWidth = 100;
-let timerWidth = 90;
+let timerWidth = 80;
 let livesLeft = 3;
+let timerInterval;
 
 target.addEventListener("click", () => {
   bullseyes++;
+  totalScore++;
+  checkIfFiveBullseyes();
   generateRandomTargetPosition();
-
   if (!isTimerStarted) {
     timerBar.style.width = `${timerWidth}%`;
     startTimer();
   }
-
-  shrinkTarget();
 });
 
 function generateRandomTargetPosition() {
@@ -38,29 +43,69 @@ function getTwoRandomNumbers() {
 
 function startTimer() {
   isTimerStarted = true;
-  let timerInterval = setInterval(() => {
+  timerInterval = setInterval(() => {
     decreaseTimerWidth();
-    if (timerWidth <= -10) {
+    if (timerWidth <= 0) {
       clearInterval(timerInterval);
-      isTimerStarted = false;
-      console.log(isTimerStarted);
-      timerWidth = 90;
-      timerBar.style.width = `100%`;
+      setTimeout(() => {
+        checkIfRoundPassed();
+        isTimerStarted = false;
+        timerWidth = 80;
+        timerBar.style.width = `100%`;
+      }, 1000);
     }
   }, 1000);
 }
 
 function shrinkTarget() {
-  if (bullseyes % 5 === 0) {
-    targetHeight = targetHeight * 0.75;
-    targetWidth = targetWidth * 0.75;
-    target.style.height = `${targetHeight}px`;
-    target.style.width = `${targetWidth}px`;
-    target.textContent = null;
-  }
+  targetHeight = targetHeight * 0.75;
+  targetWidth = targetWidth * 0.75;
+  target.style.height = `${targetHeight}px`;
+  target.style.width = `${targetWidth}px`;
+  target.textContent = null;
+  bullseyes = 0;
 }
 
 function decreaseTimerWidth() {
-  timerWidth = timerWidth - 10;
+  timerWidth = timerWidth - 20;
   timerBar.style.width = `${timerWidth}%`;
+}
+
+function checkIfRoundPassed() {
+  if (bullseyes % 5 === 0) {
+    shrinkTarget();
+  } else {
+    loseLife();
+  }
+}
+
+function loseLife() {
+  livesLeft -= 1;
+  clearInterval(timerInterval);
+
+  if (livesLeft === 2) {
+    firstLife.style.color = "red";
+    bullseyes = 0;
+  } else if (livesLeft === 1) {
+    secondLife.style.color = "red";
+    bullseyes = 0;
+  } else if (livesLeft === 0) {
+    thirdLife.style.color = "red";
+    gameOver();
+  }
+}
+
+function checkIfFiveBullseyes() {
+  if (bullseyes === 5) {
+    clearInterval(timerInterval);
+    isTimerStarted = false;
+    timerWidth = 80;
+    timerBar.style.width = `100%`;
+    shrinkTarget();
+  }
+}
+
+function gameOver() {
+  alert("GAME OVER");
+  location.reload();
 }
